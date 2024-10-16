@@ -1,0 +1,56 @@
+--학생(번호,이름,학년,분반,학과번호)
+CREATE TABLE 학생(
+    번호  int NOT NULL,
+    이름  varchar(12),
+    학년  int,
+    분반  char(2),
+    학과번호  int,
+    PRIMARY KEY(번호),
+    FOREIGN KEY(학과번호)
+      REFERENCES 학과(학과번호)
+);
+
+insert into 학생 values(1,'한지혜',1,'YB',1);
+insert into 학생 values(2,'이정우',1,'YA',1);
+insert into 학생 values(3,'오지영',2,'J1',2);
+insert into 학생 values(4,'강재미',1,'YB',1);
+insert into 학생 values(5,'박철호',2,'J1',2);
+
+
+
+
+-- 학교(학교명,분류,학생수,주소)
+PK:폰번호
+FK:학교이름
+
+-- 학원생(학원생이름,폰번호,나이,학교이름,학년,반,반번호)
+PK:폰번호
+FK:학교이름
+
+CREATE TABLE 학원생(
+     학원생이름,
+     폰번호,
+     나이,
+     학교이름,
+     학년,
+     반,
+     반번호,
+     PRIMARY KEY(폰번호),
+     FOREIGN KEY(학교이름)
+       REFERENCES 학교(학교명)
+
+
+------------------------------------------------------
+3교시 개념
+스키마,
+ 3단계 구조(암기하기 시험에 잘나옴) 
+-외부 스키마
+-개념 스키마
+-내부 스키마
+
+
+
+
+
+
+
