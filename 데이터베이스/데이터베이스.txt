@@ -109,3 +109,26 @@ C 제약조건
 
 널 값 데이터 입력 방법
 (결과물 작성을 하는것이 시험문제-  *빈칸과 null)
+-----------------------------------------------------------------------
+10.24
+무결성 제약조건(integrity constraint)
+1.개체 무결성 제약조건(**)
+(엔티티 무결성 제약조건)
+entity integrity constraint
+기본키는 널 값을 가질 수 없다.
+
+2. 참조 무결성 제약조건
+referential integrity constraint
+
+참조하는 테이블의 (외래키) 값은
+참조되는 테이블의 (기본키) 값에 있어야한다.
+
+3. 키 무결성 제약조건 : unique
+  (유일성 제약조건)
+  unique integrity constraint
+                    (대체키)
+
+4. 도메인 무결성 제약조건:check,default
+   (domain integrity constraint)
+
+         
