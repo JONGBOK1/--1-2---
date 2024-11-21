@@ -240,7 +240,7 @@ order by cname ASC;
 
 select *
 from customer
-order by city asc, cname asc, point desc;
+order by city asc,point desc;
 
 
 -- 4-4) 포인트가 많은 순으로(내림차순) 먼저 정렬하고, 같은 포인트는 이름의 오름차순으로 정렬하고
