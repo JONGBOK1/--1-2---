@@ -1,0 +1,207 @@
+-- 인공_데이터베이스(QC) (담당: 김희숙) 14주차 실습(stu): quiz
+
+====================================
+[1교시] 실습용(복습)(w14)
+
+-- 데이터베이스(QC)(담당: 김희숙) 14주차 수업중실습(stu)
+
+(w14) 1교시: 다음 SQL문법을 작성하시오
+     (복습)   [Quiz 1-01] 조인
+     (복습)   [Quiz 2-01] 사원 (집계함수/그룹화)
+
+===========================
+     (복습)   [Quiz 1-01] 조인
+     (복습)   [Quiz 2-01] 사원 (집계함수/그룹화)
+       
+     [Quiz 3-01] 고객(집계함수/뷰(view))
+===========================
+     (복습)   [Quiz 1-01] 조인
+/* -------------------------------------- */
+/* 관계대수 (outerjoin01-mysql.sql) */
+
+drop table if exists omember;
+drop table if exists group_ex;
+
+CREATE TABLE omember ( 
+   id         CHAR(3)     NOT NULL ,
+   groupid CHAR(1)
+);
+
+CREATE TABLE group_ex ( 
+   groupid   CHAR(1)   NOT NULL ,
+   position   VARCHAR(12)
+);
+
+INSERT INTO omember VALUES('100', 'A');
+INSERT INTO omember VALUES('101', 'B');
+INSERT INTO omember VALUES('102', 'A');
+INSERT INTO omember VALUES('102', 'F');
+
+INSERT INTO group_ex VALUES('A', '서울');
+INSERT INTO group_ex VALUES('B', '대구');
+INSERT INTO group_ex VALUES('C', '광주');
+INSERT INTO group_ex VALUES('D', '부산');
+INSERT INTO group_ex VALUES('E', '대전');
+
+SELECT * FROM omember;
+SELECT * FROM group_ex;
+/* -------------------------------------- */
+-----------------------------------------
+-----------------------------------------
+-- [Quiz 2-01] 사원 (집계함수/그룹화)
+-- 1) 최대 연봉을 구하시오
+
+select MAX(연봉)
+from 사원;
+
+-- 2) 사원수를 구하시오
+
+select count(*) as 사원수
+from 사원;
+
+-- 3) 직책의 개수를 중복없이 검색하시오(DISTINCT)
+
+select count(distinct 직책)
+from 사원;
+
+-- 4) 직책별 연봉의 평균을 구하시오
+
+select 직책,AVG(연봉)
+from 사원
+group by 직책;
+
+
+ <'~별'이 들어가면 group by라고 생각하라.>
+
+-- 5) 직책별 사원수를 구하시오(시험예상문제)
+
+select 직책,count(*) as 사원수
+from 사원
+group by 직책;
+
+-- 6) 연봉이 2500 이상인 사원이 2명 이상인 
+직책의 사원수를 구하시오
+
+select 직책,count(*) as 사원수
+from 사원
+where 연봉 >=2500
+group by 직책
+having count(*) >=2;
+
+-----------------------------------------
+/* -------------------------------------- */
+drop table if exists 사원;
+
+create table 사원 (
+    직원코드  varchar(8)      NOT NULL  ,
+    성명        varchar(20)    NOT NULL  ,
+    직책        varchar(10) ,
+    연봉        int            ,
+    성별        char(1) ,    
+    PRIMARY KEY(직원코드)
+);
+
+-- 사원(직원코드,성명,직책,연봉)
+insert into 사원 values('161353','김미나','대리',2300,'여');
+insert into 사원 values('181323','최영락','사원',1900,'남');
+insert into 사원 values('151453','홍진호','과장',2800,'남');
+insert into 사원 values('135485','구준표','과장',3000,'남');
+insert into 사원 values('104895','김나래','팀장',3600,'남');
+insert into 사원 values('165484','김하늘','대리',2400,'남');
+
+select * from 사원;
+/* -------------------------------------- */
+-----------------------------------------
+
+-----------------------------------------
+# [요약] 뷰(view): 가상의 테이블
+
+장점) 1) 보안성
+        2) 사용의 편의성
+-----------------------------------------
+[Quiz 3-01] 고객(집계함수/뷰(view))
+
+select * from 고객;
+
+-- 1) 다음 실행결과는 무엇인가?
+SELECT COUNT(*), 
+           COUNT(적립금),  **count 안에 들어있는 곳은 NULL값 제외
+           COUNT(DISTINCT 직업)
+FROM   고객;
+
+<실행결과>
+7
+6
+5
+
+
+
+#뷰
+
+-- 고객(고객아이디, 고객이름, 나이, 등급, 직업, 적립금)
+
+-- 2) 뷰 작성: 고객_학생 뷰 생성
+-- 고객아이디, 등급, 직업,적립금 으로 이루어진다
+-----------------------------------------
+-- 뷰
+CREATE VIEW 고객_학생
+as
+  SELECT 고객아이디, 등급, 직업,적립금
+  FROM   고객
+  WHERE  직업 = '학생';
+
+apple
+orange
+-----------------------------------------
+-- 2) 다음 실행결과는 무엇인가?
+insert into 고객_학생 values('shinme','gold','학생',500);
+select * from 고객 where 고객아이디='shinme';
+
+apple
+orange
+shinme
+
+나머진 NULL으로 채우면 정답입니다.
+
+-----------------------------------------
+/* -------------------------------------- */
+DROP TABLE if exists 고객;
+
+-- 고객(고객아이디,고객이름,나이,등급,직업,적립금)
+CREATE TABLE 고객 (
+      고객아이디   VARCHAR(20)             NOT NULL,
+      고객이름      VARCHAR(10),
+      나이            INT,
+      등급            VARCHAR(10)              NOT NULL,
+      직업            VARCHAR(20),
+      적립금         INT                            DEFAULT 0,
+      PRIMARY KEY(고객아이디)
+);
+
+INSERT INTO 고객 VALUES ('apple', '정소화', 20, 'gold', '학생', 1000);
+INSERT INTO 고객 VALUES ('banana', '김선우', 25, 'vip', '간호사', 2500);
+INSERT INTO 고객 VALUES ('carrot', '고명석', 28, 'gold', '교사', 4500);
+INSERT INTO 고객 VALUES ('orange', '김용축', 22, 'silver', '학생', NULL);
+INSERT INTO 고객 VALUES ('melon', '성원용', 35, 'gold', '회사원', 5000);
+INSERT INTO 고객 VALUES ('peach', '오형준', NULL, 'silver', '의사', 300);
+INSERT INTO 고객 VALUES ('pear', '채광주', 31, 'silver', '회사원', 500);
+
+select * from 고객;
+/* -------------------------------------- */
+----------------------------------------------
+
+
+
+시험범위
+4 관계대수
+  union
+  실렉션(시그마):where
+  프로젝션(파이):select
+
+5장
+
+6(뷰)
+
+
+
+

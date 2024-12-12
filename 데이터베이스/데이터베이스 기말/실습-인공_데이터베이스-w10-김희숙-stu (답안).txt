@@ -355,33 +355,34 @@ SELECT * FROM 성적2;
 -- 성적(이름, 점수)
 -- 1-1) 최고 점수를 검색하라 
 
-select 
+select MAX(점수)
 from 성적;
 
 -- 1-2) 최저 점수를 검색하라
 
-select 
+select MIN(점수)
 from 성적;
 
 -- 1-3) 점수합계를 검색하라 
 
-select 
+select SUM(점수)
 from 성적;
 
 -- 1-4) 평균점수를 검색하라
 
-select 
+select AVG(점수) 
 from 성적;
 
 -- 1-5) 학생수는 모두 몇 명인지 검색하라
 
-select 
+select count(*) as 학생수
 from 성적;
 
 -- 1-6) 시험에 응시한 학생수는 모두 몇 명인지 검색하라
 
-select 
-from 성적;
+select count(*) 
+from 성적
+where 점수 is not null;
 
 -----------------------------------------
 [실습 2-02] SELECT (그룹화) (성적2)
