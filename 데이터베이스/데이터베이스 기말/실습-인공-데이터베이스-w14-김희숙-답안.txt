@@ -150,8 +150,10 @@ as
   FROM   고객
   WHERE  직업 = '학생';
 
-apple
-orange
+<실행결과>
+고객아이디  등급    직업   적립금
+apple       gold    학생   1000
+orange      silver  학생   NULL
 -----------------------------------------
 -- 2) 다음 실행결과는 무엇인가?
 insert into 고객_학생 values('shinme','gold','학생',500);
@@ -159,7 +161,7 @@ select * from 고객 where 고객아이디='shinme';
 
 apple
 orange
-shinme
+shinme NULL NULL gold 학생 500
 
 나머진 NULL으로 채우면 정답입니다.
 
